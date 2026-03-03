@@ -1,32 +1,15 @@
 
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import {  StyleSheet, Text  } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 // import { Button, TextInput } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { useEffect, useState } from 'react';
-import { api, getToken, setToken } from '../client/api.js'
+import { api } from '../client/api.js'
 
 
-const Item = ({expense}) =>{ 
-    console.log(expense);
-    
-    return(
-    <View style={style.item}>
-        <Text>{expense}</Text>
-    </View>
-)};
 
-const Expenses = ({expenses}) => (
-    <SafeAreaView style={style.wrapper}>
-        <FlatList
-            data={expenses}
-            renderItem={({item}) => <Item expense={item.title} />}
-            keyExtractor={(_,index)=>index}
-            style={{width:'100%'}}
-        />
-    </SafeAreaView>
-)
+import Expenses from '../components/Expenses.jsx';
 
 const DeleteExpense = () => (
     <SafeAreaView style={style.wrapper}>
@@ -41,14 +24,14 @@ const EditExpense = () => (
 )
 const Tab = createBottomTabNavigator()
 export default function ExpenseDash({ navigation }) {
-    const [expenses, setExpenses] = useState()
+    const [expenses, setExpenses] = useState([])
 
     useEffect(() => {
         const loadData = async () => {
             const res = await api.getExpenses()
             setExpenses(res.data)
             console.log(res.data);
-            
+
         }
         loadData()
 
@@ -76,7 +59,7 @@ export default function ExpenseDash({ navigation }) {
         >
             <Tab.Screen name='editExpense' component={EditExpense} />
             <Tab.Screen name='Expense List'>
-                {(props)=><Expenses {...props } expenses={expenses}/>}
+                {(props) => <Expenses {...props} expenses={expenses} />}
             </Tab.Screen>
             <Tab.Screen name='filterExpense' component={DeleteExpense} />
         </Tab.Navigator>
@@ -87,26 +70,28 @@ export default function ExpenseDash({ navigation }) {
 
 const style = StyleSheet.create({
     wrapper: {
-        flex:1,
+        flex: 1,
         // width:'100%',
         borderStyle: 'solid',
         borderWidth: 2,
         borderColor: 'grey',
         padding: 10,
-        alignItems:'center'
-        
+        alignItems: 'center'
+
     },
     item: {
-        width:'90%',
+        width: '90%',
+        flexDirection:'row',
+        alignItems: 'center',
         backgroundColor: '#7a7c80',
-        padding: 20,
+        padding: 10,
         marginVertical: 8,
         marginHorizontal: 16,
-        alignSelf:'stretch',
+        alignSelf: 'stretch',
         // borderStyle: 'solid',
         // borderWidth: 2,
         // borderColor: 'red',
-        borderRadius:15
-        
+        borderRadius: 15
+
     },
 })

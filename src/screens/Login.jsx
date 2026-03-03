@@ -2,7 +2,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, TextInput } from 'react-native-paper';
-import { api, getToken, setToken } from '../client/api.js'
+import { api, setToken } from '../client/api.js'
 import { useState } from 'react';
 
 
